@@ -82,7 +82,6 @@ func (s *KSession) request(method, urlStr string, b []byte) (response []byte, er
 	if s.Debug {
 		log.Printf("REQUEST %8s :: %s\n", method, urlStr)
 		log.Printf("REQUEST  PAYLOAD :: [%s]\n", string(b))
-		return
 	}
 
 	req, err := http.NewRequest(method, urlStr, bytes.NewBuffer(b))

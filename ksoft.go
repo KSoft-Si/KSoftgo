@@ -11,14 +11,12 @@ import (
 	"time"
 )
 
-const VERSION string = "1.0"
+const VERSION string = "1.0.1"
 
 func New(token string) (s *KSession, err error) {
 	s = &KSession{
 		Client:    &http.Client{Timeout: 20 * time.Second},
-		UserAgent: "KSoftgo",
-		//UserAgent: "KSoftgo (https://github.com/Noctember/KSoftgo, v" + VERSION + ")",
-		Debug: true,
+		UserAgent: "KSoftgo (https://github.com/Noctember/KSoftgo, v" + VERSION + ")",
 	}
 
 	if token == "" {
