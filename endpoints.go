@@ -22,13 +22,13 @@ var (
 	EndpointMemeRandomNSFW   = EndpointRest + "meme/random-nsfw"
 
 	EndpointBansAdd    = EndpointRest + "bans/add"
-	EndpointBansInfo   = func(id int64) string { return EndpointRest + "bans/info?user=" + string(id) }
-	EndpointBansCheck  = func(id int64) string { return EndpointRest + "bans/check?user=" + string(id) }
+	EndpointBansInfo   = func(id int64) string { return EndpointRest + "bans/info?user=" + strconv.FormatInt(id, 10) }
+	EndpointBansCheck  = func(id int64) string { return EndpointRest + "bans/check?user=" + strconv.FormatInt(id, 10) }
 	EndpointBansDelete = func(user int64, force bool) string {
 		return EndpointRest + "bans/delete?user=" + string(user) + "&force=" + strconv.FormatBool(force)
 	}
 	EndpointBansList = func(page, perpage int) string {
-		return EndpointRest + "bans/list?page=" + string(page) + "&per_page=" + string(perpage)
+		return EndpointRest + "bans/list?page=" + strconv.Itoa(page) + "&per_page=" + strconv.Itoa(perpage)
 	}
 
 	EndpointKumoGis     = func(param ParamGIS) string { return EndpointRest + "kumo/gis?q=" + url.QueryEscape(param.Location) }
@@ -36,9 +36,9 @@ var (
 		return EndpointRest + "kumo/weather/" + param.ReportType + "?q=" + url.QueryEscape(param.Location)
 	}
 	EndpointKumoWeatherAdv = func(param ParamAdvWeather) string {
-		return EndpointRest + "kumo/weather/" + string(param.Latitude) + "," + string(param.Longitude) + "/" + param.ReportType
+		return EndpointRest + "kumo/weather/" + strconv.FormatFloat(param.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(param.Longitude, 'f', -1, 64) + "/" + param.ReportType
 	}
-	EndpointKumoGeoip    = func(ip string) string { return EndpointRest + "kumo/geoip&ip=" + ip }
+	EndpointKumoGeoip    = func(ip string) string { return EndpointRest + "kumo/geoip?ip=" + ip }
 	EndpointKumoCurrency = func(param ParamCurrency) string {
 		return EndpointRest + "kumo/currency?from=" + param.From + "&to=" + param.To + "&value=" + string(param.Value)
 	}
@@ -46,8 +46,8 @@ var (
 	EndpointLyricsSearch = func(param ParamSearchLyrics) string {
 		return EndpointRest + "lyrics/search?q=" + url.QueryEscape(param.Query)
 	}
-	EndpointLyricsArtist         = func(id int) string { return EndpointRest + "lyrics/artist/" + string(id) }
-	EndpointLyricsAlbum          = func(id int) string { return EndpointRest + "lyrics/album/" + string(id) }
-	EndpointLyricsTrack          = func(id int) string { return EndpointRest + "lyrics/track/" + string(id) }
+	EndpointLyricsArtist         = func(id int64) string { return EndpointRest + "lyrics/artist/" + strconv.FormatInt(id, 10) }
+	EndpointLyricsAlbum          = func(id int64) string { return EndpointRest + "lyrics/album/" + strconv.FormatInt(id, 10) }
+	EndpointLyricsTrack          = func(id int64) string { return EndpointRest + "lyrics/track/" + strconv.FormatInt(id, 10) }
 	EndpointMusicRecommendations = EndpointRest + "music/recommendations"
 )

@@ -11,7 +11,8 @@ import (
 	"time"
 )
 
-const VERSION string = "1.0.1"
+//Following https://semver.org/
+const VERSION string = "1.1.0"
 
 func New(token string) (s *KSession, err error) {
 	s = &KSession{
@@ -271,7 +272,7 @@ func (s *KSession) SearchLyrics(param ParamSearchLyrics) (results LyricsSearch, 
 	return
 }
 
-func (s *KSession) GetArtist(id int) (results Artist, err error) {
+func (s *KSession) GetArtist(id int64) (results Artist, err error) {
 	results = Artist{}
 	res, err := s.request("GET", EndpointLyricsArtist(id), nil)
 	if err != nil {
@@ -282,7 +283,7 @@ func (s *KSession) GetArtist(id int) (results Artist, err error) {
 	return
 }
 
-func (s *KSession) GetAlbum(id int) (results Album, err error) {
+func (s *KSession) GetAlbum(id int64) (results Album, err error) {
 	results = Album{}
 	res, err := s.request("GET", EndpointLyricsAlbum(id), nil)
 	if err != nil {
@@ -293,7 +294,7 @@ func (s *KSession) GetAlbum(id int) (results Album, err error) {
 	return
 }
 
-func (s *KSession) GetTrack(id int) (results Track, err error) {
+func (s *KSession) GetTrack(id int64) (results Track, err error) {
 	results = Track{}
 	res, err := s.request("GET", EndpointLyricsTrack(id), nil)
 	if err != nil {

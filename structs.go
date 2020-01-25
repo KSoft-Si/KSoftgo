@@ -53,10 +53,10 @@ type Tags struct {
 }
 
 type BanInfo struct {
-	ID            int64       `json:"id"`
+	ID            string      `json:"id"`
 	Name          string      `json:"name"`
-	Discriminator int         `json:"discriminator"`
-	ModeratorID   int64       `json:"moderator_id"`
+	Discriminator string      `json:"discriminator"`
+	ModeratorID   string      `json:"moderator_id"`
 	Reason        string      `json:"reason"`
 	Proof         string      `json:"proof"`
 	IsBanActive   bool        `json:"is_ban_active"`
@@ -77,10 +77,10 @@ type BansList struct {
 	NextPage     int         `json:"next_page"`
 	PreviousPage interface{} `json:"previous_page"`
 	Data         []struct {
-		ID            int64       `json:"id"`
+		ID            string      `json:"id"`
 		Name          string      `json:"name"`
 		Discriminator string      `json:"discriminator"`
-		ModeratorID   int64       `json:"moderator_id"`
+		ModeratorID   string      `json:"moderator_id"`
 		Reason        string      `json:"reason"`
 		Proof         string      `json:"proof"`
 		IsBanActive   bool        `json:"is_ban_active"`
@@ -115,8 +115,8 @@ type Weather struct {
 		Time                string      `json:"time"`
 		Summary             string      `json:"summary"`
 		Icon                string      `json:"icon"`
-		PrecipIntensity     int         `json:"precipIntensity"`
-		PrecipProbability   int         `json:"precipProbability"`
+		PrecipIntensity     float64     `json:"precipIntensity"`
+		PrecipProbability   float64     `json:"precipProbability"`
 		Temperature         float64     `json:"temperature"`
 		ApparentTemperature float64     `json:"apparentTemperature"`
 		DewPoint            float64     `json:"dewPoint"`
@@ -305,8 +305,8 @@ type ParamWeather struct {
 }
 
 type ParamAdvWeather struct {
-	Latitude   int
-	Longitude  int
+	Latitude   float64
+	Longitude  float64
 	ReportType string
 	Units      string
 	Lang       string
@@ -316,7 +316,7 @@ type ParamAdvWeather struct {
 type ParamCurrency struct {
 	From  string
 	To    string
-	Value int
+	Value string
 }
 
 type ParamSearchLyrics struct {
