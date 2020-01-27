@@ -20,6 +20,34 @@ type KSession struct {
 	RetryAfter     time.Duration
 }
 
+type Album struct {
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Year   int    `json:"year"`
+	Artist struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"artist"`
+	Tracks []struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"tracks"`
+}
+
+type Artist struct {
+	ID     int    `json:"id"`
+	Name   string `json:"name"`
+	Albums []struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+		Year int    `json:"year"`
+	} `json:"albums"`
+	Tracks []struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"tracks"`
+}
+
 type APIErrorMessage struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
@@ -31,18 +59,6 @@ type Image struct {
 	NSFW      bool   `json:"nsfw"`
 	Tag       string `json:"tag"`
 }
-type Reddit struct {
-	Title     string `json:"title"`
-	ImageURL  string `json:"image_url"`
-	Source    string `json:"source"`
-	Subreddit string `json:"subreddit"`
-	Upvotes   int    `json:"upvotes"`
-	Downvotes int    `json:"downvotes"`
-	Comments  string `json:"comments"`
-	CreatedAt int    `json:"created_at"`
-	NSFW      bool   `json:"nsfw"`
-}
-
 type Tags struct {
 	Models []struct {
 		Name string `json:"name"`
@@ -50,6 +66,10 @@ type Tags struct {
 	} `json:"models"`
 	Tags     []string `json:"tags"`
 	NsfwTags []string `json:"nsfw_tags"`
+}
+
+type BanCheck struct {
+	Banned bool `json:"is_banned"`
 }
 
 type BanInfo struct {
@@ -91,8 +111,33 @@ type BansList struct {
 	} `json:"data"`
 }
 
-type BanCheck struct {
-	Banned bool `json:"is_banned"`
+type Currency struct {
+	Value  float64 `json:"value"`
+	Pretty string  `json:"pretty"`
+}
+
+type GeoIP struct {
+	Error bool `json:"error"`
+	Code  int  `json:"code"`
+	Data  struct {
+		City          string      `json:"city"`
+		ContinentCode string      `json:"continent_code"`
+		ContinentName string      `json:"continent_name"`
+		CountryCode   string      `json:"country_code"`
+		CountryName   string      `json:"country_name"`
+		DmaCode       interface{} `json:"dma_code"`
+		Latitude      float64     `json:"latitude"`
+		Longitude     float64     `json:"longitude"`
+		PostalCode    string      `json:"postal_code"`
+		Region        string      `json:"region"`
+		TimeZone      string      `json:"time_zone"`
+		Apis          struct {
+			Weather       string `json:"weather"`
+			Gis           string `json:"gis"`
+			Openstreetmap string `json:"openstreetmap"`
+			Googlemaps    string `json:"googlemaps"`
+		} `json:"apis"`
+	} `json:"data"`
 }
 
 type GIS struct {
@@ -106,6 +151,51 @@ type GIS struct {
 		Type        []string `json:"type"`
 		Map         string   `json:"map"`
 	} `json:"data"`
+}
+
+type LyricsSearch struct {
+	Total int `json:"total"`
+	Took  int `json:"took"`
+	Data  []struct {
+		Artist      string  `json:"artist"`
+		ArtistID    int     `json:"artist_id"`
+		Album       string  `json:"album"`
+		AlbumIds    string  `json:"album_ids"`
+		AlbumYear   string  `json:"album_year"`
+		Name        string  `json:"name"`
+		Lyrics      string  `json:"lyrics"`
+		SearchStr   string  `json:"search_str"`
+		AlbumArt    string  `json:"album_art"`
+		Popularity  int     `json:"popularity"`
+		ID          string  `json:"id"`
+		SearchScore float64 `json:"search_score"`
+	} `json:"data"`
+}
+
+type Reddit struct {
+	Title     string  `json:"title"`
+	ImageURL  string  `json:"image_url"`
+	Source    string  `json:"source"`
+	Subreddit string  `json:"subreddit"`
+	Upvotes   int     `json:"upvotes"`
+	Downvotes int     `json:"downvotes"`
+	Comments  int     `json:"comments"`
+	CreatedAt float64 `json:"created_at"`
+	NSFW      bool    `json:"nsfw"`
+}
+
+type Track struct {
+	Name   string `json:"name"`
+	Artist struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"artist"`
+	Albums []struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+		Year int    `json:"year"`
+	} `json:"albums"`
+	Lyrics string `json:"lyrics"`
 }
 
 type Weather struct {
@@ -150,124 +240,6 @@ type Weather struct {
 	} `json:"data"`
 }
 
-type GeoIP struct {
-	Error bool `json:"error"`
-	Code  int  `json:"code"`
-	Data  struct {
-		City          string      `json:"city"`
-		ContinentCode string      `json:"continent_code"`
-		ContinentName string      `json:"continent_name"`
-		CountryCode   string      `json:"country_code"`
-		CountryName   string      `json:"country_name"`
-		DmaCode       interface{} `json:"dma_code"`
-		Latitude      float64     `json:"latitude"`
-		Longitude     float64     `json:"longitude"`
-		PostalCode    string      `json:"postal_code"`
-		Region        string      `json:"region"`
-		TimeZone      string      `json:"time_zone"`
-		Apis          struct {
-			Weather       string `json:"weather"`
-			Gis           string `json:"gis"`
-			Openstreetmap string `json:"openstreetmap"`
-			Googlemaps    string `json:"googlemaps"`
-		} `json:"apis"`
-	} `json:"data"`
-}
-
-type Currency struct {
-	Value  float64 `json:"value"`
-	Pretty string  `json:"pretty"`
-}
-
-type LyricsSearch struct {
-	Total int `json:"total"`
-	Took  int `json:"took"`
-	Data  []struct {
-		Artist      string  `json:"artist"`
-		ArtistID    int     `json:"artist_id"`
-		Album       string  `json:"album"`
-		AlbumIds    string  `json:"album_ids"`
-		AlbumYear   string  `json:"album_year"`
-		Name        string  `json:"name"`
-		Lyrics      string  `json:"lyrics"`
-		SearchStr   string  `json:"search_str"`
-		AlbumArt    string  `json:"album_art"`
-		Popularity  int     `json:"popularity"`
-		ID          string  `json:"id"`
-		SearchScore float64 `json:"search_score"`
-	} `json:"data"`
-}
-
-type Artist struct {
-	ID     int    `json:"id"`
-	Name   string `json:"name"`
-	Albums []struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-		Year int    `json:"year"`
-	} `json:"albums"`
-	Tracks []struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	} `json:"tracks"`
-}
-
-type Album struct {
-	ID     int    `json:"id"`
-	Name   string `json:"name"`
-	Year   int    `json:"year"`
-	Artist struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	} `json:"artist"`
-	Tracks []struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	} `json:"tracks"`
-}
-
-type Track struct {
-	Name   string `json:"name"`
-	Artist struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-	} `json:"artist"`
-	Albums []struct {
-		ID   int    `json:"id"`
-		Name string `json:"name"`
-		Year int    `json:"year"`
-	} `json:"albums"`
-	Lyrics string `json:"lyrics"`
-}
-
-type Recommendations struct {
-	Provider string `json:"provider"`
-	Total    int    `json:"total"`
-	Tracks   []struct {
-		Youtube struct {
-			ID          string `json:"id"`
-			Link        string `json:"link"`
-			Title       string `json:"title"`
-			Thumbnail   string `json:"thumbnail"`
-			Description string `json:"description"`
-		} `json:"youtube"`
-		Spotify struct {
-			ID    string `json:"id"`
-			Album struct {
-				Name     string `json:"name"`
-				AlbumArt string `json:"album_art"`
-				Link     string `json:"link"`
-			} `json:"album"`
-			Artists []struct {
-				Name string `json:"name"`
-				Link string `json:"link"`
-			} `json:"artists"`
-			Name string `json:"name"`
-			Link string `json:"link"`
-		} `json:"spotify"`
-		Name string `json:"name"`
-	} `json:"tracks"`
-}
 type ParamAddBan struct {
 	ID            int64  `json:"user,omitempty"`
 	Reason        string `json:"reason,omitempty"`
@@ -276,32 +248,6 @@ type ParamAddBan struct {
 	Discriminator int    `json:"user_discriminator,omitempty"`
 	ModeratorID   int64  `json:"mod,omitempty"`
 	CanBeAppealed bool   `json:"appeal_possible,omitempty"`
-}
-
-type ParamDeleteBan struct {
-	User  int64
-	Force bool
-}
-
-type ParamTag struct {
-	Name string `json:"name"`
-	NSFW bool   `json:"nsfw"`
-}
-
-type ParamGIS struct {
-	Location   string
-	Fast       bool
-	More       bool
-	Zoom       int
-	IncludeMap bool
-}
-
-type ParamWeather struct {
-	Location   string
-	ReportType string
-	Units      string
-	Lang       string
-	Icons      string
 }
 
 type ParamAdvWeather struct {
@@ -319,10 +265,36 @@ type ParamCurrency struct {
 	Value string
 }
 
+type ParamDeleteBan struct {
+	User  int64
+	Force bool
+}
+
+type ParamGIS struct {
+	Location   string
+	Fast       bool
+	More       bool
+	Zoom       int
+	IncludeMap bool
+}
+
 type ParamSearchLyrics struct {
 	Query    string
 	TextOnly bool
 	Limit    int
+}
+
+type ParamTag struct {
+	Name string
+	NSFW bool
+}
+
+type ParamWeather struct {
+	Location   string
+	ReportType string
+	Units      string
+	Lang       string
+	Icons      string
 }
 
 const (

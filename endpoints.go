@@ -8,9 +8,7 @@ import (
 var (
 	EndpointRest = "https://api.ksoft.si/"
 
-	EndpointMemeRandomMeme = func(tag string, nsfw bool) string {
-		return EndpointRest + "meme/random-meme?tag=" + tag + "&nsfw=" + strconv.FormatBool(nsfw)
-	}
+	EndpointMemeRandomMeme  = EndpointRest + "meme/random-meme"
 	EndpointMemeRandomImage = func(tag string, nsfw bool) string {
 		return EndpointRest + "meme/random-image?tag=" + tag + "&nsfw=" + strconv.FormatBool(nsfw)
 	}

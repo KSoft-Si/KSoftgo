@@ -11,9 +11,10 @@ import (
 	"time"
 )
 
-//Following https://semver.org/
-const VERSION string = "1.1.0"
+// Following https://semver.org/
+const VERSION string = "1.1.1"
 
+// New creates a new KSoft instance.
 func New(token string) (s *KSession, err error) {
 	s = &KSession{
 		Client:    &http.Client{Timeout: 20 * time.Second},
@@ -29,6 +30,9 @@ func New(token string) (s *KSession, err error) {
 	return
 }
 
+// Get a random image
+// Example:
+//		image, err := ksession.RandomImage(kosftgo.ParamTag{Name: "doge"})
 func (s *KSession) RandomImage(tag ParamTag) (i Image, err error) {
 	i = Image{}
 	res, err := s.request("GET", EndpointMemeRandomImage(tag.Name, tag.NSFW), nil)
@@ -40,17 +44,23 @@ func (s *KSession) RandomImage(tag ParamTag) (i Image, err error) {
 	return
 }
 
-func (s *KSession) RandomMeme(tag ParamTag) (i Image, err error) {
-	i = Image{}
-	res, err := s.request("GET", EndpointMemeRandomMeme(tag.Name, tag.NSFW), nil)
+// Get a random meme
+// Example:
+//		reddit, err := ksession.RandomMeme()
+func (s *KSession) RandomMeme() (r Reddit, err error) {
+	r = Reddit{}
+	res, err := s.request("GET", EndpointMemeRandomMeme, nil)
 	if err != nil {
 		return
 	}
 
-	err = json.Unmarshal(res, &i)
+	err = json.Unmarshal(res, &r)
 	return
 }
 
+// Get a random meme
+// Example:
+//		reddit, err := ksession.RandomMeme()
 func (s *KSession) RandomAww() (reddit Reddit, err error) {
 	reddit = Reddit{}
 	res, err := s.request("GET", EndpointMemeRandomAww, nil)
@@ -62,6 +72,9 @@ func (s *KSession) RandomAww() (reddit Reddit, err error) {
 	return
 }
 
+// Get a random reddit post
+// Example:
+//		reddit, err := ksession.RandomReddit("memes")
 func (s *KSession) RandomReddit(sub string) (reddit Reddit, err error) {
 	reddit = Reddit{}
 	res, err := s.request("GET", EndpointMemeRandomReddit(sub), nil)
@@ -73,6 +86,9 @@ func (s *KSession) RandomReddit(sub string) (reddit Reddit, err error) {
 	return
 }
 
+// Get a random NSFW post
+// Example:
+//		reddit, err := ksession.RandomNSFW()
 func (s *KSession) RandomNSFW() (reddit Reddit, err error) {
 	reddit = Reddit{}
 	res, err := s.request("GET", EndpointMemeRandomNSFW, nil)
@@ -84,6 +100,9 @@ func (s *KSession) RandomNSFW() (reddit Reddit, err error) {
 	return
 }
 
+// Get a random WikiHow article
+// Example:
+//		image, err := ksession.RandomWikiHow()
 func (s *KSession) RandomWikiHow() (i Image, err error) {
 	i = Image{}
 	res, err := s.request("GET", EndpointMemeWikihow, nil)
@@ -95,6 +114,9 @@ func (s *KSession) RandomWikiHow() (i Image, err error) {
 	return
 }
 
+// Get an image by it's snowflake
+// Example:
+//		image, err := ksession.ImageBySnowflake("i-ix63ra_m-12")
 func (s *KSession) ImageBySnowflake(snowflake string) (i Image, err error) {
 	i = Image{}
 	res, err := s.request("GET", EndpointMemeImage(snowflake), nil)
@@ -106,6 +128,9 @@ func (s *KSession) ImageBySnowflake(snowflake string) (i Image, err error) {
 	return
 }
 
+// Get tags
+// Example:
+//		tags, err := ksession.GetTags()
 func (s *KSession) GetTags() (tags Tags, err error) {
 	tags = Tags{}
 	res, err := s.request("GET", EndpointMemeTags, nil)
@@ -117,6 +142,9 @@ func (s *KSession) GetTags() (tags Tags, err error) {
 	return
 }
 
+// Add a ban to the ban list
+// Example:
+//		err := ksession.AddBan(ksoftgo.ParamAddBan{ID: 0000000000000000, Reason: "bad guy", Proof: "imgur.com"})
 func (s *KSession) AddBan(info ParamAddBan) (err error) {
 	jsonMap := make(map[string]interface{})
 	data, err := json.Marshal(info)
@@ -130,6 +158,9 @@ func (s *KSession) AddBan(info ParamAddBan) (err error) {
 	return
 }
 
+// Get ban info
+// Example:
+//		baninfo, err := ksession.GetBanInfo(0000000000000000)
 func (s *KSession) GetBanInfo(user int64) (info BanInfo, err error) {
 	info = BanInfo{}
 	res, err := s.request("GET", EndpointBansInfo(user), nil)
@@ -141,6 +172,9 @@ func (s *KSession) GetBanInfo(user int64) (info BanInfo, err error) {
 	return
 }
 
+// Check user
+// Example:
+//		isbanned, err := ksession.CheckBan(0000000000000000)
 func (s *KSession) CheckBan(user int64) (c bool, err error) {
 	res, err := s.request("GET", EndpointBansCheck(user), nil)
 	if err != nil {
@@ -152,6 +186,9 @@ func (s *KSession) CheckBan(user int64) (c bool, err error) {
 	return bc.Banned, err
 }
 
+// Delete ban
+// Example:
+//		ksession.DeleteBan(0000000000000000)
 func (s *KSession) DeleteBan(delete ParamDeleteBan) {
 	_, err := s.request("DELETE", EndpointBansDelete(delete.User, delete.Force), nil)
 	if err != nil {
@@ -159,6 +196,9 @@ func (s *KSession) DeleteBan(delete ParamDeleteBan) {
 	}
 }
 
+// List of bans
+// Example:
+//		banlist, err := ksession.GetBans(1, 20)
 func (s *KSession) GetBans(page, perpage int) (banlist BansList, err error) {
 	banlist = BansList{}
 	res, err := s.request("GET", EndpointBansList(page, perpage), nil)
@@ -170,6 +210,9 @@ func (s *KSession) GetBans(page, perpage int) (banlist BansList, err error) {
 	return
 }
 
+// Search for locations and get maps
+// Example:
+//		gis, err := ksession.GetGis(ksoftgo.ParamGis{Location: "Montreal"})
 func (s *KSession) GetGIS(params ParamGIS) (gis GIS, err error) {
 	gis = GIS{}
 	url := EndpointKumoGis(params)
@@ -192,6 +235,9 @@ func (s *KSession) GetGIS(params ParamGIS) (gis GIS, err error) {
 	return
 }
 
+// Weather - easy
+// Example:
+//		weather, err := ksession.GetWeather(ksoftgo.ParamWeather{Location: "Montreal", ReportType: "currently"})
 func (s *KSession) GetWeather(params ParamWeather) (weather Weather, err error) {
 	weather = Weather{}
 	url := EndpointKumoWeather(params)
@@ -212,6 +258,9 @@ func (s *KSession) GetWeather(params ParamWeather) (weather Weather, err error) 
 	return
 }
 
+// Weather - advanced
+// Example:
+//		weather, err := ksession.GetAdvWeather(ksoftgo.ParamAdvWeather{Latitude: 0.0, Longitude: 0.0,ReportType: "currently"})
 func (s *KSession) GetAdvWeather(params ParamAdvWeather) (weather Weather, err error) {
 	weather = Weather{}
 	url := EndpointKumoWeatherAdv(params)
@@ -232,6 +281,9 @@ func (s *KSession) GetAdvWeather(params ParamAdvWeather) (weather Weather, err e
 	return
 }
 
+// GeoIP
+// Example:
+//		geoip, err := ksession.GeoIP("192.168.0.1")
 func (s *KSession) GeoIP(ip string) (geoip GeoIP, err error) {
 	geoip = GeoIP{}
 	res, err := s.request("GET", EndpointKumoGeoip(ip), nil)
@@ -243,6 +295,9 @@ func (s *KSession) GeoIP(ip string) (geoip GeoIP, err error) {
 	return
 }
 
+// Currency conversion
+// Example:
+//		currency, err := ksession.CurrenyConversion(ksoftgo.ParamCurrency{From: "CAD", To "USD", Value: "1000"})
 func (s *KSession) CurrencyConversion(param ParamCurrency) (curr Currency, err error) {
 	curr = Currency{}
 	res, err := s.request("GET", EndpointKumoCurrency(param), nil)
@@ -254,6 +309,9 @@ func (s *KSession) CurrencyConversion(param ParamCurrency) (curr Currency, err e
 	return
 }
 
+// Get lyrics
+// Example:
+//		lyricssearch, err := ksession.SearchLyrics(ksoftgo.ParamSearchLyrics{Query: "Rick never gonna give you up"})
 func (s *KSession) SearchLyrics(param ParamSearchLyrics) (results LyricsSearch, err error) {
 	results = LyricsSearch{}
 	url := EndpointLyricsSearch(param)
@@ -272,6 +330,9 @@ func (s *KSession) SearchLyrics(param ParamSearchLyrics) (results LyricsSearch, 
 	return
 }
 
+// Get artist by ID
+// Example:
+//		artist, err := ksession.GetArtist(628942)
 func (s *KSession) GetArtist(id int64) (results Artist, err error) {
 	results = Artist{}
 	res, err := s.request("GET", EndpointLyricsArtist(id), nil)
@@ -283,6 +344,9 @@ func (s *KSession) GetArtist(id int64) (results Artist, err error) {
 	return
 }
 
+// Get album by ID
+// Example:
+//		album, err := ksession.GetAlbum(88287)
 func (s *KSession) GetAlbum(id int64) (results Album, err error) {
 	results = Album{}
 	res, err := s.request("GET", EndpointLyricsAlbum(id), nil)
@@ -294,6 +358,9 @@ func (s *KSession) GetAlbum(id int64) (results Album, err error) {
 	return
 }
 
+// Get track by ID
+// Example:
+//		track, err := ksession.GetTrack(680639)
 func (s *KSession) GetTrack(id int64) (results Track, err error) {
 	results = Track{}
 	res, err := s.request("GET", EndpointLyricsTrack(id), nil)
