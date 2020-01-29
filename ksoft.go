@@ -12,7 +12,7 @@ import (
 )
 
 // Following https://semver.org/
-const VERSION string = "1.1.1"
+const VERSION string = "1.1.2"
 
 // New creates a new KSoft instance.
 func New(token string) (s *KSession, err error) {

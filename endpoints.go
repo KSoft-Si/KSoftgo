@@ -8,16 +8,16 @@ import (
 var (
 	EndpointRest = "https://api.ksoft.si/"
 
-	EndpointMemeRandomMeme  = EndpointRest + "meme/random-meme"
+	EndpointMemeRandomMeme  = EndpointRest + "images/random-meme"
 	EndpointMemeRandomImage = func(tag string, nsfw bool) string {
-		return EndpointRest + "meme/random-image?tag=" + tag + "&nsfw=" + strconv.FormatBool(nsfw)
+		return EndpointRest + "images/random-image?tag=" + tag + "&nsfw=" + strconv.FormatBool(nsfw)
 	}
-	EndpointMemeImage        = func(snowflake string) string { return EndpointRest + "meme/image/" + snowflake }
-	EndpointMemeWikihow      = EndpointRest + "meme/random-wikihow"
-	EndpointMemeTags         = EndpointRest + "meme/tags"
-	EndpointMemeRandomAww    = EndpointRest + "meme/random-aww"
-	EndpointMemeRandomReddit = func(sub string) string { return EndpointRest + "meme/rand-reddit/" + sub }
-	EndpointMemeRandomNSFW   = EndpointRest + "meme/random-nsfw"
+	EndpointMemeImage        = func(snowflake string) string { return EndpointRest + "images/image/" + snowflake }
+	EndpointMemeWikihow      = EndpointRest + "images/random-wikihow"
+	EndpointMemeTags         = EndpointRest + "images/tags"
+	EndpointMemeRandomAww    = EndpointRest + "images/random-aww"
+	EndpointMemeRandomReddit = func(sub string) string { return EndpointRest + "images/rand-reddit/" + sub }
+	EndpointMemeRandomNSFW   = EndpointRest + "images/random-nsfw"
 
 	EndpointBansAdd    = EndpointRest + "bans/add"
 	EndpointBansInfo   = func(id int64) string { return EndpointRest + "bans/info?user=" + strconv.FormatInt(id, 10) }
