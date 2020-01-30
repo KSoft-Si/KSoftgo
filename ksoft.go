@@ -103,8 +103,8 @@ func (s *KSession) RandomNSFW() (reddit Reddit, err error) {
 // Get a random WikiHow article
 // Example:
 //		image, err := ksession.RandomWikiHow()
-func (s *KSession) RandomWikiHow() (i Image, err error) {
-	i = Image{}
+func (s *KSession) RandomWikiHow() (i WikiHowImage, err error) {
+	i = WikiHowImage{}
 	res, err := s.request("GET", EndpointMemeWikihow, nil)
 	if err != nil {
 		return

@@ -59,6 +59,14 @@ type Image struct {
 	NSFW      bool   `json:"nsfw"`
 	Tag       string `json:"tag"`
 }
+
+type WikiHowImage struct {
+	URL string `json:"url"`
+	Title string `json:"title"`
+	NSFW bool `json:"nsfw"`
+	ArticleURL string `json:"article_url"`
+}
+
 type Tags struct {
 	Models []struct {
 		Name string `json:"name"`
