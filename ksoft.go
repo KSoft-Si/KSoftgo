@@ -12,13 +12,13 @@ import (
 )
 
 // Following https://semver.org/
-const VERSION string = "1.1.2"
+const VERSION string = "1.1.3"
 
 // New creates a new KSoft instance.
 func New(token string) (s *KSession, err error) {
 	s = &KSession{
-		Client:    &http.Client{Timeout: 20 * time.Second},
-		UserAgent: "KSoftgo (https://github.com/Noctember/KSoftgo, v" + VERSION + ")",
+		Client:    &http.Client{Timeout: 30 * time.Second},
+		UserAgent: "KSoftgo (https://github.com/KSoft-Si/KSoftgo, v" + VERSION + ")",
 	}
 
 	if token == "" {

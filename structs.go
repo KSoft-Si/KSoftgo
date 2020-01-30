@@ -169,6 +169,7 @@ type LyricsSearch struct {
 		Popularity  int     `json:"popularity"`
 		ID          string  `json:"id"`
 		SearchScore float64 `json:"search_score"`
+		URL         string  `json:"url"`
 	} `json:"data"`
 }
 
@@ -182,6 +183,7 @@ type Reddit struct {
 	Comments  int     `json:"comments"`
 	CreatedAt float64 `json:"created_at"`
 	NSFW      bool    `json:"nsfw"`
+	Author    string  `json:"author"`
 }
 
 type Track struct {
