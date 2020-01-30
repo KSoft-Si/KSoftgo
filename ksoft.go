@@ -12,7 +12,7 @@ import (
 )
 
 // Following https://semver.org/
-const VERSION string = "1.1.3"
+const VERSION string = "1.1.4"
 
 // New creates a new KSoft instance.
 func New(token string) (s *KSession, err error) {
@@ -297,10 +297,10 @@ func (s *KSession) GeoIP(ip string) (geoip GeoIP, err error) {
 
 // Currency conversion
 // Example:
-//		currency, err := ksession.CurrenyConversion(ksoftgo.ParamCurrency{From: "CAD", To "USD", Value: "1000"})
-func (s *KSession) CurrencyConversion(param ParamCurrency) (curr Currency, err error) {
+//		currency, err := ksession.CurrenyConversion(694.20, "USD", "CAD")
+func (s *KSession) CurrencyConversion(value float64, from, to string) (curr Currency, err error) {
 	curr = Currency{}
-	res, err := s.request("GET", EndpointKumoCurrency(param), nil)
+	res, err := s.request("GET", EndpointKumoCurrency(value, from, to), nil)
 	if err != nil {
 		return
 	}

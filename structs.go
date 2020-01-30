@@ -61,9 +61,9 @@ type Image struct {
 }
 
 type WikiHowImage struct {
-	URL string `json:"url"`
-	Title string `json:"title"`
-	NSFW bool `json:"nsfw"`
+	URL        string `json:"url"`
+	Title      string `json:"title"`
+	NSFW       bool   `json:"nsfw"`
 	ArticleURL string `json:"article_url"`
 }
 
@@ -267,12 +267,6 @@ type ParamAdvWeather struct {
 	Units      string
 	Lang       string
 	Icons      string
-}
-
-type ParamCurrency struct {
-	From  string
-	To    string
-	Value string
 }
 
 type ParamDeleteBan struct {

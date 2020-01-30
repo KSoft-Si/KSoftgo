@@ -37,8 +37,8 @@ var (
 		return EndpointRest + "kumo/weather/" + strconv.FormatFloat(param.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(param.Longitude, 'f', -1, 64) + "/" + param.ReportType
 	}
 	EndpointKumoGeoip    = func(ip string) string { return EndpointRest + "kumo/geoip?ip=" + ip }
-	EndpointKumoCurrency = func(param ParamCurrency) string {
-		return EndpointRest + "kumo/currency?from=" + param.From + "&to=" + param.To + "&value=" + string(param.Value)
+	EndpointKumoCurrency = func(value float64, from, to string) string {
+		return EndpointRest + "kumo/currency?from=" + from + "&to=" + to + "&value=" + strconv.FormatFloat(value, 'f', -1, 64)
 	}
 
 	EndpointLyricsSearch = func(param ParamSearchLyrics) string {
