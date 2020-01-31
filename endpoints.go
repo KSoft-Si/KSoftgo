@@ -1,6 +1,8 @@
 package ksoftgo
 
 import (
+	"fmt"
+	"github.com/google/go-querystring/query"
 	"net/url"
 	"strconv"
 )
@@ -8,41 +10,78 @@ import (
 var (
 	EndpointRest = "https://api.ksoft.si/"
 
+	// --------- IMAGES ENDPOINTS ----------------------------------------------
+
 	EndpointMemeRandomMeme  = EndpointRest + "images/random-meme"
-	EndpointMemeRandomImage = func(tag string, nsfw bool) string {
-		return EndpointRest + "images/random-image?tag=" + tag + "&nsfw=" + strconv.FormatBool(nsfw)
+	EndpointMemeTags        = EndpointRest + "images/tags"
+	EndpointMemeRandomAww   = EndpointRest + "images/random-aww"
+	EndpointMemeImage       = func(snowflake string) string { return EndpointRest + "images/image/" + snowflake }
+	EndpointMemeRandomImage = func(param ParamRandomImage) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "images/random-image?" + q.Encode()
 	}
-	EndpointMemeImage        = func(snowflake string) string { return EndpointRest + "images/image/" + snowflake }
-	EndpointMemeWikihow      = EndpointRest + "images/random-wikihow"
-	EndpointMemeTags         = EndpointRest + "images/tags"
-	EndpointMemeRandomAww    = EndpointRest + "images/random-aww"
-	EndpointMemeRandomReddit = func(sub string) string { return EndpointRest + "images/rand-reddit/" + sub }
-	EndpointMemeRandomNSFW   = EndpointRest + "images/random-nsfw"
+	EndpointMemeWikihow = func(param ParamWikiHow) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "images/random-wikihow?" + q.Encode()
+	}
+	EndpointMemeRandomReddit = func(param ParamRandomReddit) string {
+		q, _ := query.Values(param.Options)
+		return EndpointRest + "images/rand-reddit/" + param.SubReddit + "?" + q.Encode()
+	}
+	EndpointMemeRandomNSFW = func(param ParamRandomNSFW) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "images/random-nsfw?" + q.Encode()
+	}
 
-	EndpointBansAdd    = EndpointRest + "bans/add"
-	EndpointBansInfo   = func(id int64) string { return EndpointRest + "bans/info?user=" + strconv.FormatInt(id, 10) }
-	EndpointBansCheck  = func(id int64) string { return EndpointRest + "bans/check?user=" + strconv.FormatInt(id, 10) }
-	EndpointBansDelete = func(user int64, force bool) string {
-		return EndpointRest + "bans/delete?user=" + string(user) + "&force=" + strconv.FormatBool(force)
+	// --------- BANS ENDPOINTS ------------------------------------------------
+
+	EndpointBansAdd  = EndpointRest + "bans/add"
+	EndpointBansInfo = func(param ParamBans) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "bans/info?" + q.Encode()
 	}
-	EndpointBansList = func(page, perpage int) string {
-		return EndpointRest + "bans/list?page=" + strconv.Itoa(page) + "&per_page=" + strconv.Itoa(perpage)
+	EndpointBansCheck = func(param ParamBans) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "bans/check?" + q.Encode()
+	}
+	EndpointBansDelete = func(param ParamDeleteBan) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "bans/delete?" + q.Encode()
+	}
+	EndpointBansList = func(param ParamListBans) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "bans/list?" + q.Encode()
 	}
 
-	EndpointKumoGis     = func(param ParamGIS) string { return EndpointRest + "kumo/gis?q=" + url.QueryEscape(param.Location) }
+	// --------- KUMO ENDPOINTS ------------------------------------------------
+
+	EndpointKumoGis = func(param ParamGIS) string {
+		return EndpointRest + "kumo/gis?q=" + url.QueryEscape(param.Location)
+	}
 	EndpointKumoWeather = func(param ParamWeather) string {
 		return EndpointRest + "kumo/weather/" + param.ReportType + "?q=" + url.QueryEscape(param.Location)
 	}
 	EndpointKumoWeatherAdv = func(param ParamAdvWeather) string {
-		return EndpointRest + "kumo/weather/" + strconv.FormatFloat(param.Latitude, 'f', -1, 64) + "," + strconv.FormatFloat(param.Longitude, 'f', -1, 64) + "/" + param.ReportType
+		q, _ := query.Values(param.Options)
+		return EndpointRest + fmt.Sprintf("kumo/weather/%s,%s/%s?%s",
+			strconv.FormatFloat(param.Latitude, 'f', -1, 64),
+			strconv.FormatFloat(param.Longitude, 'f', -1, 64),
+			param.ReportType, q.Encode())
 	}
-	EndpointKumoGeoip    = func(ip string) string { return EndpointRest + "kumo/geoip?ip=" + ip }
-	EndpointKumoCurrency = func(value float64, from, to string) string {
-		return EndpointRest + "kumo/currency?from=" + from + "&to=" + to + "&value=" + strconv.FormatFloat(value, 'f', -1, 64)
+	EndpointKumoGeoIP = func(param ParamIP) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "kumo/geoip?" + q.Encode()
+	}
+	EndpointKumoCurrency = func(param ParamCurrency) string {
+		q, _ := query.Values(param)
+		return EndpointRest + "kumo/currency?" + q.Encode()
 	}
 
+	// --------- MUSIC ENDPOINTS -----------------------------------------------
+
 	EndpointLyricsSearch = func(param ParamSearchLyrics) string {
-		return EndpointRest + "lyrics/search?q=" + url.QueryEscape(param.Query)
+		q, _ := query.Values(param)
+		return EndpointRest + "lyrics/search?" + q.Encode()
 	}
 	EndpointLyricsArtist         = func(id int64) string { return EndpointRest + "lyrics/artist/" + strconv.FormatInt(id, 10) }
 	EndpointLyricsAlbum          = func(id int64) string { return EndpointRest + "lyrics/album/" + strconv.FormatInt(id, 10) }

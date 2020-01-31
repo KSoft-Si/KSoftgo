@@ -20,6 +20,8 @@ type KSession struct {
 	RetryAfter     time.Duration
 }
 
+// RESPONSES
+
 type Album struct {
 	ID     int    `json:"id"`
 	Name   string `json:"name"`
@@ -250,6 +252,8 @@ type Weather struct {
 	} `json:"data"`
 }
 
+// POST PARAMETERS
+
 type ParamAddBan struct {
 	ID            int64  `json:"user,omitempty"`
 	Reason        string `json:"reason,omitempty"`
@@ -260,39 +264,83 @@ type ParamAddBan struct {
 	CanBeAppealed bool   `json:"appeal_possible,omitempty"`
 }
 
+// QUERY PARAMETERS
+
+type ParamRandomNSFW struct {
+	GIFsOnly bool `url:"gifs,omitempty"`
+}
+
+type ParamWikiHow struct {
+	NSFW bool `url:"nsfw,omitempty"`
+}
+
+type ParamRandomReddit struct {
+	SubReddit string
+	Options   OptionalRandomReddit
+}
+
+type OptionalRandomReddit struct {
+	RemoveNSFW bool   `url:"remove_nsfw,omitempty"`
+	Span       string `url:"span,omitempty"`
+}
+
+type ParamRandomImage struct {
+	Tag  string `url:"tag"`
+	NSFW bool   `url:"nsfw,omitempty"`
+}
+
+type ParamBans struct {
+	UserID string `url:"user"`
+}
+
+type ParamDeleteBan struct {
+	User  int64 `url:"user"`
+	Force bool  `url:"force,omitempty"`
+}
+
+type ParamListBans struct {
+	Page    int64 `url:"page,omitempty"`
+	PerPage int   `url:"per_page,omitempty"`
+}
+
 type ParamAdvWeather struct {
 	Latitude   float64
 	Longitude  float64
 	ReportType string
-	Units      string
-	Lang       string
-	Icons      string
+	Options    OptionalAdvWeather
 }
 
-type ParamDeleteBan struct {
-	User  int64
-	Force bool
+type OptionalAdvWeather struct {
+	Units string `url:"units,omitempty"`
+	Lang  string `url:"lang,omitempty"`
+	Icons string `url:"icons,omitempty"`
+}
+
+type ParamIP struct {
+	IP string `url:"ip"`
+}
+
+type ParamCurrency struct {
+	CurrencyFrom string  `url:"from"`
+	CurrencyTo   string  `url:"to"`
+	Value        float64 `url:"value"`
 }
 
 type ParamGIS struct {
-	Location   string
-	Fast       bool
-	More       bool
-	Zoom       int
-	IncludeMap bool
+	Location   string `url:"q"`
+	Fast       bool   `url:"fast,omitempty"`
+	More       bool   `url:"more,omitempty"`
+	MapZoom    int    `url:"map_zoom,omitempty"`
+	IncludeMap bool   `url:"include_map,omitempty"`
 }
 
 type ParamSearchLyrics struct {
-	Query    string
-	TextOnly bool
-	Limit    int
+	Query    string `url:"q"`
+	TextOnly bool   `url:"text_only,omitempty"`
+	Limit    int    `url:"limit,omitempty"`
 }
 
-type ParamTag struct {
-	Name string
-	NSFW bool
-}
-
+// TODO: Separate report type and
 type ParamWeather struct {
 	Location   string
 	ReportType string
