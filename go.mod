@@ -1,4 +1,4 @@
-module github.com/KSoft-Si/KSoftgo/v2
+module gopkg.in/KSoft-Si/KSoftgo.v2
 
 go 1.13
 
