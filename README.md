@@ -7,5 +7,5 @@
 ## Getting Started
 ### Installing
 ```sh
-go get github.com/KSoft-Si/KSoftgo
+go get github.com/KSoft-Si/KSoftgo/v2
 ```
